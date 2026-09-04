@@ -1,8 +1,10 @@
 import Alert from '@mui/material/Alert'
 import Button from '@mui/material/Button'
+import IconButton from '@mui/material/IconButton'
 import Stack from '@mui/material/Stack'
 import TextField from '@mui/material/TextField'
 import Typography from '@mui/material/Typography'
+import CloseIcon from '@mui/icons-material/Close'
 
 interface ProjectFormProps {
   name: string
@@ -13,6 +15,7 @@ interface ProjectFormProps {
   error: string | null
   valid: boolean
   handleSubmit: (e: React.FormEvent) => void
+  onClose: () => void
 }
 
 export function ProjectForm({
@@ -24,10 +27,16 @@ export function ProjectForm({
   error,
   valid,
   handleSubmit,
+  onClose,
 }: ProjectFormProps) {
   return (
     <Stack spacing={2} component="form" onSubmit={handleSubmit}>
-      <Typography variant="h6">Nuevo proyecto</Typography>
+      <Stack direction="row" justifyContent="space-between" alignItems="center">
+        <Typography variant="h6">Nuevo proyecto</Typography>
+        <IconButton onClick={onClose} size="small" aria-label="Cerrar formulario">
+          <CloseIcon />
+        </IconButton>
+      </Stack>
 
       {error && <Alert severity="error">{error}</Alert>}
 

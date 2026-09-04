@@ -1,7 +1,7 @@
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 
-const repoName = 'react-proyecto-final'
+const repoName = 'proyecto-final'
 const isGitHubPages = process.env.GITHUB_PAGES === 'true'
 
 export default defineConfig({

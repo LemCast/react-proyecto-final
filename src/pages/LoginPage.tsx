@@ -8,6 +8,7 @@ import Typography from '@mui/material/Typography'
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useAuth } from '../hooks/useAuth'
+import { API_URL } from '../types'
 
 export function LoginPage() {
   const { login } = useAuth()
@@ -35,7 +36,10 @@ export function LoginPage() {
   return (
     <Box maxWidth={480} mx="auto" mt={8}>
       <Typography variant="h4" gutterBottom>
-        Taskflow API
+        Pagina de Login
+      </Typography>
+      <Typography variant="body2" color="text.secondary" sx={{ mb: 3 }}>
+        Proyecto Final React Aaron Garza
       </Typography>
 
       <Paper sx={{ p: 3 }}>

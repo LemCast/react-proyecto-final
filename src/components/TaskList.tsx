@@ -10,9 +10,10 @@ interface TaskListProps {
   tasks: Task[]
   loading: boolean
   error: string | null
+  onChanged: () => void
 }
 
-export function TaskList({ tasks, loading, error }: TaskListProps) {
+export function TaskList({ tasks, loading, error, onChanged }: TaskListProps) {
   if (loading) {
     return (
       <Stack alignItems="center" py={4}>
@@ -37,7 +38,7 @@ export function TaskList({ tasks, loading, error }: TaskListProps) {
           <Grid container spacing={2}>
               {tasks.map((task) => (
                   <Grid key={task.id} size={{ xs: 12, sm: 6, md: 4 }} sx={{ display: 'flex' }}>
-                      <TaskCard task={task} />
+                      <TaskCard task={task} onChanged={onChanged} />
                   </Grid>
               ))}
           </Grid>

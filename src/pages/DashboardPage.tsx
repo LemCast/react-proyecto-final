@@ -1,4 +1,6 @@
 import LogoutIcon from '@mui/icons-material/Logout'
+import CreateNewFolderIcon from '@mui/icons-material/CreateNewFolder'
+import ViewListIcon from '@mui/icons-material/ViewList'
 import Box from '@mui/material/Box'
 import Button from '@mui/material/Button'
 import Paper from '@mui/material/Paper'
@@ -10,12 +12,17 @@ import { ProjectList } from '../components/ProjectList'
 import { useAuth } from '../hooks/useAuth'
 import { useProjectForm } from '../hooks/useProjectForm'
 import { useProjects } from '../hooks/useProjects'
+import { useState } from 'react'
 
 export function DashboardPage() {
   const { logout } = useAuth()
   const navigate = useNavigate()
   const { projects, loading, error, refetch } = useProjects()
-  const projectForm = useProjectForm({ onSuccess: refetch })
+  const projectForm = useProjectForm({ onSuccess: () => {
+        refetch()
+        setCreatingProject(false)
+    } })
+  const [creatingProject, setCreatingProject] = useState(false)
 
   function handleLogout() {
     logout()
@@ -23,27 +30,41 @@ export function DashboardPage() {
   }
 
   return (
-    <Box maxWidth={640} mx="auto" mt={6}>
-      <Stack direction="row" justifyContent="space-between" alignItems="center" mb={3}>
+    <Box maxWidth={720} mx="auto" mt={6} px={2}>
+      <Stack
+        direction="row"
+        justifyContent="space-between"
+        alignItems="center"
+        mb={3}
+      >
         <Box>
           <Typography variant="h4" gutterBottom>
             Dashboard
           </Typography>
-          <Typography variant="body2" color="text.secondary">
-            Fase 4 — formulario + lista conectados.
-          </Typography>
+          <Button startIcon={<CreateNewFolderIcon />} onClick={() => setCreatingProject(true)}>
+            Crear proyecto
+          </Button>
+          <Button startIcon={<ViewListIcon />} onClick={() => navigate('/tasks')}>
+            Ver todas las tareas
+          </Button>
+          <Button startIcon={<LogoutIcon />} onClick={handleLogout}>
+            Cerrar sesión
+          </Button>
         </Box>
-        <Button startIcon={<LogoutIcon />} onClick={handleLogout}>
-          Cerrar sesión
-        </Button>
       </Stack>
-
-      <Paper sx={{ p: 3, mb: 3 }}>
-        <ProjectForm {...projectForm} />
-      </Paper>
+      {creatingProject && (
+        <Paper sx={{ p: 3, mb: 3 }}>
+          <ProjectForm {...projectForm} onClose={() => setCreatingProject(false)} />
+        </Paper>
+      )}
 
       <Paper sx={{ p: 3 }}>
-        <ProjectList projects={projects} loading={loading} error={error} />
+        <ProjectList
+          projects={projects}
+          loading={loading}
+          error={error}
+          onChanged={refetch}
+        />
       </Paper>
     </Box>
   )
