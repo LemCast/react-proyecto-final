@@ -33,7 +33,7 @@ export function ProjectTasksPage() {
                 </Box>
             </Stack>
             <Button startIcon={<AssignmentIcon />} onClick={() => setCreatingTask(true)}>
-                    Crear tarea
+                    Nueva tarea
                 </Button>
 
             {creatingTask && (

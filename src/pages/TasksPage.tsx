@@ -13,7 +13,7 @@ export function TasksPage() {
       <Stack direction="row" justifyContent="space-between" alignItems="center" mb={3}>
         <Box>
           <Typography variant="h4" gutterBottom>
-            Tasks
+            Tareas
           </Typography>
         </Box>
       </Stack>

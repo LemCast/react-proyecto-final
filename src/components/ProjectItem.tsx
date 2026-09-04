@@ -103,7 +103,7 @@ export function ProjectItem({ project, onChanged }: ProjectItemProps) {
                         onClick={actions.startEditing}
                         disabled={actions.busy}
                     >
-                        Editar
+                        Editar Proyecto
                     </Button>
 
                     <Button
@@ -113,13 +113,13 @@ export function ProjectItem({ project, onChanged }: ProjectItemProps) {
                         onClick={confirmDelete}
                         disabled={actions.busy}
                     >
-                        {actions.deleting ? 'Eliminando…' : 'Eliminar'}
+                        {actions.deleting ? 'Eliminando…' : 'Borrar Proyecto'}
                     </Button>
                     <Button
                         startIcon={<AssignmentIcon />}
                         onClick={() => navigate(`/projects/${project.id}/tasks`)}
                     >
-                        Ver tareas
+                        Mostrar tareas
                     </Button>
                 </Stack>
                 <Divider sx={{ mb: 1.5 }} />

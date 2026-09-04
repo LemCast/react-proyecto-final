@@ -1,6 +1,6 @@
 import axios from 'axios'
 import { getApiBaseUrl } from '../config/apiUrl'
-import { TOKEN_KEY } from '../types'
+import { TOKEN_KEY, USERNAME_KEY } from '../types'
 
 export function getToken(): string | null {
   return localStorage.getItem(TOKEN_KEY)
@@ -12,6 +12,15 @@ export function saveToken(token: string): void {
 
 export function clearToken(): void {
   localStorage.removeItem(TOKEN_KEY)
+  localStorage.removeItem(USERNAME_KEY)
+}
+
+export function getUsername(): string | null {
+  return localStorage.getItem(USERNAME_KEY)
+}
+
+export function saveUsername(username: string): void {
+  localStorage.setItem(USERNAME_KEY, username)
 }
 
 export async function login(username: string, password: string): Promise<string> {

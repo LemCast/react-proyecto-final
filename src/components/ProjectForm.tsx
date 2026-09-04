@@ -32,7 +32,7 @@ export function ProjectForm({
   return (
     <Stack spacing={2} component="form" onSubmit={handleSubmit}>
       <Stack direction="row" justifyContent="space-between" alignItems="center">
-        <Typography variant="h6">Nuevo proyecto</Typography>
+        <Typography variant="h6">Crear proyecto</Typography>
         <IconButton onClick={onClose} size="small" aria-label="Cerrar formulario">
           <CloseIcon />
         </IconButton>
