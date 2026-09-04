@@ -12,22 +12,23 @@ import Stack from '@mui/material/Stack'
 import TextField from '@mui/material/TextField'
 import Typography from '@mui/material/Typography'
 
-
+export type TaskStatus = 'TODO' | 'IN_PROGRESS' | 'DONE'
+export type TaskPriority = 'LOW' | 'MED' | 'HIGH'
 
 interface TaskFormProps {
   title: string
   setTitle: (value: string) => void
   description: string
   setDescription: (value: string) => void
-  status:string
-  setStatus: (value: string) => void
-  priority:string
-  setPriority: (value: string) => void
-  asigneeId: number | null
-  setAsigneeId: (value: number | null) => void
+  status: TaskStatus
+  setStatus: (value: TaskStatus) => void
+  priority: TaskPriority
+  setPriority: (value: TaskPriority) => void
+  assigneeId: number | null
+  setAssigneeId: (value: number | null) => void
   dueDate: string
   setDueDate: (value: string) => void
-  projectId:number
+  projectId: number
   submitting: boolean
   error: string | null
   valid: boolean
@@ -44,8 +45,8 @@ export function TaskForm({
     setStatus,
     priority,
     setPriority,
-    asigneeId,
-    setAsigneeId,
+    assigneeId,
+    setAssigneeId,
     dueDate,
     setDueDate,
     projectId,
@@ -64,6 +65,7 @@ export function TaskForm({
                       <CloseIcon />
                   </IconButton>
               </Stack>
+
               {error && <Alert severity="error">{error}</Alert>}
 
               <TextField
@@ -74,6 +76,7 @@ export function TaskForm({
                   fullWidth
                   helperText="Mínimo 3 caracteres"
               />
+
               <TextField
                   label="Descripción"
                   value={description}
@@ -82,45 +85,63 @@ export function TaskForm({
                   multiline
                   rows={2}
               />
+
               <Select
                   value={status}
                   label="Estado"
-                  onChange={(e: SelectChangeEvent<string>) => setStatus(e.target.value)}
+                  onChange={(e: SelectChangeEvent<TaskStatus>) =>
+                    setStatus(e.target.value as TaskStatus)
+                  }
               >
                   <MenuItem value="TODO">Pendiente</MenuItem>
                   <MenuItem value="IN_PROGRESS">En progreso</MenuItem>
                   <MenuItem value="DONE">Completada</MenuItem>
               </Select>
+
               <Select
                   value={priority}
                   label="Prioridad"
-                  onChange={(e: SelectChangeEvent<string>) => setPriority(e.target.value)}
+                  onChange={(e: SelectChangeEvent<TaskPriority>) =>
+                    setPriority(e.target.value as TaskPriority)
+                  }
                   required
               >
                   <MenuItem value="LOW">Baja</MenuItem>
                   <MenuItem value="MED">Media</MenuItem>
                   <MenuItem value="HIGH">Alta</MenuItem>
               </Select>
+
               <DatePicker
                   label="Fecha de vencimiento"
                   value={dueDate ? dayjs(dueDate) : null}
-                  onChange={(newValue) => setDueDate(newValue ? newValue.format('YYYY-MM-DD') : '')}
+                  onChange={(newValue) =>
+                    setDueDate(newValue ? newValue.format('YYYY-MM-DD') : '')
+                  }
                   minDate={dayjs()}
                   slotProps={{ textField: { fullWidth: true, required: true } }}
               />
+
               <TextField
                   label="Asignado a"
-                  value={asigneeId ?? ''}
-                  onChange={(e) => setAsigneeId(e.target.value ? parseInt(e.target.value, 10) : null)}
+                  value={assigneeId ?? ''}
+                  onChange={(e) =>
+                    setAssigneeId(e.target.value ? parseInt(e.target.value, 10) : null)
+                  }
                   fullWidth
               />
+
               <TextField
                   label="Project ID"
                   value={projectId}
                   disabled
                   fullWidth
               />
-              <Button type="submit" variant="contained" disabled={!valid || submitting}>
+
+              <Button
+                  type="submit"
+                  variant="contained"
+                  disabled={!valid || submitting}
+              >
                   {submitting ? 'Creando…' : 'Crear tarea'}
               </Button>
           </Stack>

@@ -5,14 +5,20 @@ import EditIcon from '@mui/icons-material/Edit'
 import SaveIcon from '@mui/icons-material/Save'
 import Alert from '@mui/material/Alert'
 import Button from '@mui/material/Button'
+import Dialog from '@mui/material/Dialog'
+import DialogActions from '@mui/material/DialogActions'
+import DialogContent from '@mui/material/DialogContent'
+import DialogContentText from '@mui/material/DialogContentText'
+import DialogTitle from '@mui/material/DialogTitle'
+import Divider from '@mui/material/Divider'
 import Paper from '@mui/material/Paper'
 import Stack from '@mui/material/Stack'
 import TextField from '@mui/material/TextField'
 import Typography from '@mui/material/Typography'
+import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useProjectActions } from '../hooks/useProjectActions'
 import type { Project } from '../types'
-import Divider from '@mui/material/Divider'
 
 interface ProjectItemProps {
     project: Project
@@ -26,14 +32,19 @@ export function ProjectItem({ project, onChanged }: ProjectItemProps) {
         onSuccess: onChanged,
     })
 
-    function confirmDelete() {
-        const confirmed = window.confirm(
-            `¿Eliminar el proyecto "${project.name}"? También se eliminarán sus tareas.`,
-        )
+    const [deleteDialogOpen, setDeleteDialogOpen] = useState(false)
 
-        if (confirmed) {
-            void actions.handleDelete()
-        }
+    function confirmDelete() {
+        setDeleteDialogOpen(true)
+    }
+
+    function handleDeleteConfirmed() {
+        setDeleteDialogOpen(false)
+        void actions.handleDelete()
+    }
+
+    function handleDeleteCancelled() {
+        setDeleteDialogOpen(false)
     }
 
     if (actions.editing) {
@@ -45,7 +56,9 @@ export function ProjectItem({ project, onChanged }: ProjectItemProps) {
                 sx={{ p: 2 }}
             >
                 <Stack spacing={2}>
-                    <Typography variant="subtitle1">Editar proyecto #{project.id}</Typography>
+                    <Typography variant="subtitle1">
+                        Editar proyecto #{project.id}
+                    </Typography>
 
                     {actions.error && <Alert severity="error">{actions.error}</Alert>}
 
@@ -93,54 +106,103 @@ export function ProjectItem({ project, onChanged }: ProjectItemProps) {
     }
 
     return (
-        <Paper variant="outlined" sx={{ p: 2 }}>
-            <Stack spacing={1.5}>
-                {actions.error && <Alert severity="error">{actions.error}</Alert>}
-                <Stack direction={{ xs: 'column', sm: 'row' }} spacing={1}>
-                    <Button
-                        size="small"
-                        startIcon={<EditIcon />}
-                        onClick={actions.startEditing}
-                        disabled={actions.busy}
-                    >
-                        Editar Proyecto
-                    </Button>
+        <>
+            <Paper variant="outlined" sx={{ p: 2 }}>
+                <Stack spacing={1.5}>
+                    {actions.error && <Alert severity="error">{actions.error}</Alert>}
 
-                    <Button
-                        size="small"
-                        color="error"
-                        startIcon={<DeleteIcon />}
-                        onClick={confirmDelete}
-                        disabled={actions.busy}
-                    >
-                        {actions.deleting ? 'Eliminando…' : 'Borrar Proyecto'}
-                    </Button>
-                    <Button
-                        startIcon={<AssignmentIcon />}
-                        onClick={() => navigate(`/projects/${project.id}/tasks`)}
-                    >
-                        Mostrar tareas
-                    </Button>
-                </Stack>
-                <Divider sx={{ mb: 1.5 }} />
-                <Stack
-                    direction={{ xs: 'column', sm: 'row' }}
-                    justifyContent="space-between"
-                    alignItems={{ xs: 'stretch', sm: 'flex-start' }}
-                    spacing={2}
-                >
-                    <Stack spacing={0.5}>
-                        <Typography variant="subtitle1">{project.name}</Typography>
-                        <Typography variant="body2" color="text.secondary" fontWeight={500}>
-                            {project.description || 'Sin descripción'}
-                        </Typography>
-                        <Typography variant="caption" color="text.secondary">
-                            ID {project.id} · Owner {project.ownerId} · Creado {project.createdAt}
-                        </Typography>
+                    <Stack direction={{ xs: 'column', sm: 'row' }} spacing={1}>
+                        <Button
+                            size="small"
+                            startIcon={<EditIcon />}
+                            onClick={actions.startEditing}
+                            disabled={actions.busy}
+                        >
+                            Editar Proyecto
+                        </Button>
+
+                        <Button
+                            size="small"
+                            color="error"
+                            startIcon={<DeleteIcon />}
+                            onClick={confirmDelete}
+                            disabled={actions.busy}
+                        >
+                            {actions.deleting ? 'Eliminando…' : 'Borrar Proyecto'}
+                        </Button>
+
+                        <Button
+                            startIcon={<AssignmentIcon />}
+                            onClick={() => navigate(`/projects/${project.id}/tasks`)}
+                        >
+                            Mostrar tareas
+                        </Button>
                     </Stack>
 
+                    <Divider sx={{ mb: 1.5 }} />
+
+                    <Stack
+                        direction={{ xs: 'column', sm: 'row' }}
+                        justifyContent="space-between"
+                        alignItems={{ xs: 'stretch', sm: 'flex-start' }}
+                        spacing={2}
+                    >
+                        <Stack spacing={0.5}>
+                            <Typography variant="subtitle1">
+                                {project.name}
+                            </Typography>
+
+                            <Typography
+                                variant="body2"
+                                color="text.secondary"
+                                fontWeight={500}
+                            >
+                                {project.description || 'Sin descripción'}
+                            </Typography>
+
+                            <Typography variant="caption" color="text.secondary">
+                                ID {project.id} · Owner {project.ownerId} · Creado {project.createdAt}
+                            </Typography>
+                        </Stack>
+                    </Stack>
                 </Stack>
-            </Stack>
-        </Paper>
+            </Paper>
+
+            <Dialog
+                open={deleteDialogOpen}
+                onClose={handleDeleteCancelled}
+            >
+                <DialogTitle>
+                    Eliminar proyecto
+                </DialogTitle>
+
+                <DialogContent>
+                    <DialogContentText>
+                        ¿Estás seguro de que deseas eliminar el proyecto
+                        <strong> "{project.name}"</strong>?
+                        <br />
+                        Esta acción también eliminará todas sus tareas y no se puede deshacer.
+                    </DialogContentText>
+                </DialogContent>
+
+                <DialogActions>
+                    <Button
+                        onClick={handleDeleteCancelled}
+                        disabled={actions.deleting}
+                    >
+                        Cancelar
+                    </Button>
+
+                    <Button
+                        color="error"
+                        variant="contained"
+                        onClick={handleDeleteConfirmed}
+                        disabled={actions.deleting}
+                    >
+                        {actions.deleting ? 'Eliminando…' : 'Eliminar'}
+                    </Button>
+                </DialogActions>
+            </Dialog>
+        </>
     )
 }

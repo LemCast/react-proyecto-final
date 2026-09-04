@@ -1,75 +1,117 @@
-# React + TypeScript + Vite
+# Project Management Platform
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A full-stack project management application that allows users to securely sign in, manage projects, and organize tasks through an intuitive user interface built with React and Material UI (MUI).
 
-Currently, two official plugins are available:
+## Overview
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+This application provides a centralized platform where authenticated users can create, edit, and delete projects while keeping track of associated tasks. Each project contains important information such as a title and description, and each task includes detailed metadata to help users stay organized.
 
-## React Compiler
+The application emphasizes usability through a clean and responsive interface powered by Material UI components.
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## Features
 
-## Expanding the ESLint configuration
+- User authentication and sign-in
+- Create new projects
+- Edit existing projects
+- Delete projects
+- Store project titles and descriptions
+- Create and manage tasks within projects
+- Assign task priorities:
+  - Low
+  - Medium
+  - High
+- Assign tasks to users by User ID
+- Set due dates and deadlines for tasks
+- Organized and responsive user interface
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+## Project Structure
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+Each project contains:
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+- **Title**
+- **Description**
+- **Tasks**
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+Each task includes:
 
+- Task information
+- Priority level (Low, Medium, High)
+- Due date
+- Assigned User ID
+- Deadline
+
+## Technologies Used
+
+- **React**
+- **Material UI (MUI)**
+- JavaScript
+- HTML5
+- CSS3
+
+## Material UI
+
+This project uses the Material UI (MUI) component library to create a modern, responsive, and consistent user experience.
+
+MUI was used for:
+
+- Pre-built UI components
+- Responsive layouts
+- Form components
+- Icons
+- Buttons
+- Dialogs
+- Navigation components
+- Styling and theming
+- Common React hooks provided by MUI
+
+## Getting Started
+
+### Prerequisites
+
+Make sure you have installed:
+
+- Node.js
+- npm
+
+### Installation
+
+Clone the repository:
+
+```bash
+git clone https://github.com/your-username/your-repository.git
 ```
 
-You can also install [eslint-plugin-react-x](https://npmx.dev/package/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://npmx.dev/package/eslint-plugin-react-dom) for React-specific lint rules:
+Navigate to the project directory:
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-
+```bash
+cd your-repository
 ```
+
+Install dependencies:
+
+```bash
+npm install
+```
+
+Start the development server:
+
+```bash
+npm start
+```
+
+The application should now be running locally.
+
+## Future Improvements
+
+- User roles and permissions
+- Project search and filtering
+- Task comments
+- File attachments
+- Email notifications
+- Dashboard with analytics
+- Drag-and-drop task organization
+- Dark mode support
+
+## License
+
+This project is intended for educational purposes.
