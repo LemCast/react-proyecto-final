@@ -8,7 +8,6 @@ import Typography from '@mui/material/Typography'
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useAuth } from '../hooks/useAuth'
-import { API_URL } from '../types'
 
 export function LoginPage() {
   const { login } = useAuth()
